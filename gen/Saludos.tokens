@@ -1,0 +1,15 @@
+TIPO_ENTERO=1
+PRINT=2
+COMILLA=3
+STRING=4
+AIDI=5
+CA=6
+CC=7
+PYC=8
+SALTO=9
+'entero'=1
+'imprime'=2
+'\''=3
+'['=6
+']'=7
+';'=8

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+
+<GridPane alignment="center" hgap="10" prefHeight="760.0" prefWidth="774.0" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="770.0" prefWidth="807.0" style="-fx-background-color: #322a45;">
+         <children>
+            <TextArea fx:id="textArea_1" layoutX="48.0" layoutY="101.0" prefHeight="346.0" prefWidth="678.0" style="-fx-background-color: #f8d8ed;">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9725490212440491" green="0.8470588326454163" blue="0.929411768913269" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect></TextArea>
+            <TextArea fx:id="textArea_2" layoutX="48.0" layoutY="486.0" prefHeight="240.0" prefWidth="424.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.6980392336845398" green="0.6235294342041016" blue="0.886274516582489" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect></TextArea>
+            <Button fx:id="boton_1" layoutX="616.0" layoutY="46.0" mnemonicParsing="false" onAction="#display" prefHeight="0.0" prefWidth="0.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:/C:/Users/ACER/Desktop/Carpetas/Escuela/Lenguajes%20y%20automatas%20II/Compilador/images/punta-de-flecha-del-boton-de-reproduccion.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="774.0" style="-fx-background-color: #f8d8ed;">
+              <menus>
+                <Menu mnemonicParsing="false" style="-fx-background-color: #f8d8ed;" text="Archivo">
+                  <items>
+                    <MenuItem fx:id="menu_item" mnemonicParsing="false" onAction="#display_2" style="-fx-background-color: #f8d8ed;" text="Abrir" />
+                  </items>
+                </Menu>
+              </menus>
+               <effect>
+                  <Glow />
+               </effect>
+            </MenuBar>
+            <Button fx:id="btnLimpiar" layoutX="685.0" layoutY="46.0" mnemonicParsing="false" onAction="#display_3">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:/C:/Users/ACER/Desktop/Carpetas/Escuela/Lenguajes%20y%20automatas%20II/Compilador/images/trash.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ImageView fitHeight="310.0" fitWidth="294.0" layoutX="476.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/ACER/Desktop/Carpetas/Escuela/Lenguajes%20y%20automatas%20II/Compilador/images/e32f9b5aadc822ee10b1ffd94e9d7fc1.gif" />
+               </image>
+            </ImageView>
+            <Button fx:id="btnTraducir" layoutX="439.0" layoutY="53.0" mnemonicParsing="false" onAction="#display_4" text="Traducir de C a mi lenguaje">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button fx:id="btnTraducirC" layoutX="272.0" layoutY="53.0" mnemonicParsing="false" onAction="#display_5" text="Traducir de mi lenguaje a C">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>

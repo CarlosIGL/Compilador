@@ -1,0 +1,164 @@
+package principal;
+
+import dante.parser.OperacionesBaseVisitor;
+import dante.parser.OperacionesParser;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+public class MyVisitor extends OperacionesBaseVisitor<Integer> {
+    //Crear la memoria para la calculadora basica
+
+    Map<String,Integer> memoria=new HashMap<String,Integer>();
+
+    ArrayList<String> impresiones=new ArrayList<String>();
+
+    @Override public Integer visitId(OperacionesParser.IdContext ctx) {
+        String id=ctx.ID().getText();
+        if(memoria.containsKey(id)) {
+            return memoria.get(id);
+        }
+        return 0;
+    }
+    @Override public Integer visitNum(OperacionesParser.NumContext ctx) {
+        return Integer.valueOf(ctx.NUM().getText());
+         }
+    @Override public Integer visitImpresion(OperacionesParser.ImpresionContext ctx) {
+        if (ctx.expr().isEmpty()){
+            System.out.println("Estas trolleando padre, no hay impresión");
+            return 0;
+        }
+        else {
+            Integer valor = visit(ctx.expr());
+            impresiones.add(valor.toString());
+            return valor;
+        }
+    }
+
+    @Override public Integer visitAsignacion(OperacionesParser.AsignacionContext ctx) {
+        try{
+            if(memoria.containsKey(ctx.ID().getText())) {
+                String id = ctx.ID().getText();
+                int valor = visit(ctx.expr());
+                memoria.put(id, valor);
+                return valor;
+            }else{
+                System.out.println("La Variable no ha sido declarada");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    @Override public Integer visitDeclarar(OperacionesParser.DeclararContext ctx) {
+        String valor = ctx.ID().getText();
+        memoria.put(valor,0);
+        return 0;
+    }
+    @Override public Integer visitSumRes(OperacionesParser.SumResContext ctx) {
+        int izq = visit(ctx.expr(0));
+        int der = visit(ctx.expr(1));
+        if (ctx.op.getType() == OperacionesParser.MAS) {
+            return izq + der;
+        }
+
+        return izq - der;
+    }
+
+    @Override public Integer visitMulDiv(OperacionesParser.MulDivContext ctx) {
+        int izq=visit(ctx.expr(0));
+        int der=visit(ctx.expr(1));
+        if(ctx.op.getType()==OperacionesParser.DIV){
+            return izq/der;
+        };
+        return izq*der;
+    }
+
+    /*@Override public Integer visitInt(OperacionesParser.IntContext ctx) {
+        return Integer.valueOf(ctx.INT().getText());
+    }
+    @Override public Integer visitId(OperacionesParser.IdContext ctx) {
+        String id=ctx.ID().getText();
+        if(memoria.containsKey(id)) {
+            return memoria.get(id);
+        }
+        return 0;
+    }
+    @Override public Integer visitSumRes(OperacionesParser.SumResContext ctx) {
+            int izq = visit(ctx.expr(0));
+            int der = visit(ctx.expr(1));
+            if (ctx.op.getType() == OperacionesParser.MAS)
+                return izq + der;
+            return izq - der;
+    }
+
+    @Override public Integer visitMulDiv(OperacionesParser.MulDivContext ctx) {
+        int izq=visit(ctx.expr(0));
+        int der=visit(ctx.expr(1));
+        if(ctx.op.getType()==OperacionesParser.DIV){
+            return izq/der;
+        };
+        return izq*der;
+    }
+    @Override public Integer visitImpresionExpresion(OperacionesParser.ImpresionExpresionContext ctx) {
+        //No regresa valor ya que es lo que esta hasta arriba en la jerarquia del arbol
+        Integer valor=visit(ctx.expr());
+        System.out.println("El resultado es: "+valor);
+        results.add(valor.toString());
+        return valor;
+    }
+
+    @Override public Integer visitAsignacion(OperacionesParser.AsignacionContext ctx) {
+        String id=ctx.ID().getText();
+        int valor=visit(ctx.expr());
+        memoria.put(id,valor);
+        return valor;
+    }
+    @Override public Integer visitParentesis(OperacionesParser.ParentesisContext ctx) {
+        return visit(ctx.expr());
+    }
+
+    */
+}
+
+
+grammar Operaciones;
+inicio2:cuerpo+;
+cuerpo:MIAU ID COR_A  instrucciones*?  COR_C PUN_C;
+instrucciones:
+            TIPO_ENTERO ID PUN_C #declarar
+            |
+            ID IGUAL expr PUN_C #asignacion
+            |
+            imprimir #espacio
+            ;
+imprimir: IMPRESION PAR_A expr PAR_C PUN_C #impresion;
+expr:
+        expr op= (POR|DIV) expr #mulDiv
+        |
+        expr op= (MAS|MENOS) expr #sumRes
+        |
+        PAR_A expr PAR_C  #parentesis
+        |
+        ID #id
+        |
+        NUM #num;
+
+TIPO_ENTERO:'int';
+IGUAL:'=';
+IMPRESION:'Impresion';
+MIAU:'Miau';
+COR_A:'{';
+COR_C:'}';
+PUN_C:';';
+PAR_A:'(';
+PAR_C:')';
+POR:'*';
+DIV:'/';
+MAS:'+';
+MENOS:'-';
+ID:[a-z][a-zA-Z0-9]*;
+STRING: '"' (ESC | .)*? '"';
+NUM:[0-9]+;
+fragment ESC: '\\' [btnr"\\];
+ESPACIOS:[ \t\r\n]+ -> skip;
